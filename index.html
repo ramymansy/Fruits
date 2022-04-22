@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- fontawesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Fruits</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+      }
+      section {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        padding: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+      }
+      .bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fc4a55;
+        transition: 0.5s ease-in-out;
+      }
+      .bg::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 80%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.1);
+      }
+      header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .logo {
+        position: relative;
+        font-weight: 600;
+        color: #fff;
+        text-decoration: none;
+        font-size: 2em;
+      }
+      header .navigation {
+        position: relative;
+        display: flex;
+      }
+      header .navigation li {
+        list-style: none;
+      }
+      header .navigation li a {
+        display: inline-block;
+        color: #fff;
+        font-weight: 400;
+        margin-left: 10px;
+        padding: 8px 15px;
+        border-radius: 40px;
+        text-decoration: none;
+        transition: 0.2s ease-in-out;
+      }
+      header .navigation li a.active,
+      header .navigation li a:hover {
+        background: #fff;
+        color: #333;
+      }
+      .content {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .content .textBox {
+        position: relative;
+        max-width: 600px;
+      }
+      .content .textBox h2 {
+        color: #fff;
+        font-size: 4em;
+        line-height: 1.2em;
+        font-weight: 700;
+      }
+      .content .textBox p {
+        color: #fff;
+        margin-top: 20px;
+      }
+      .content .textBox a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 8px 20px;
+        background: #fff;
+        color: #333;
+        border-radius: 40px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-decoration: none;
+      }
+      .content .imageBox {
+        position: relative;
+        z-index: 1;
+        width: 600px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .content .imageBox img {
+        pointer-events: none;
+        max-width: 400px;
+      }
+      .thumb {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        display: flex;
+      }
+      .thumb li {
+        list-style: none;
+        display: inline-block;
+        margin: 0 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        border-radius: 5px;
+        padding: 5px 10px;
+      }
+      .thumb li.active {
+        border: 2px solid rgba(255, 255, 255, 1);
+      }
+      .thumb li::before {
+        content: attr(data-text);
+        position: absolute;
+        top: -200px;
+        left: -100px;
+        white-space: nowrap;
+        font-size: 8em;
+        opacity: 0;
+        color: rgba(0, 0, 0, 0.05);
+        font-weight: 700;
+        pointer-events: none;
+      }
+      .thumb li.active::before {
+        opacity: 1;
+      }
+      .thumb li img {
+        max-width: 60px;
+      }
+      .social {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .social li {
+        list-style: none;
+      }
+      .social li a {
+        display: inline-block;
+        margin: 5px 0;
+        transform: scale(0.6);
+        transition: 0.2s ease-in-out;
+      }
+      .social li a:hover {
+        transform: scale(0.8);
+      }
+      .social li a i {
+        color: #fff;
+        font-size: 3em;
+      }
+      .toggle {
+        display: none;
+      }
+      /* Responsive */
+      @media (max-width: 991px) {
+        .bg::before {
+          display: none;
+        }
+        header {
+          padding: 20px;
+        }
+        section {
+          padding: 15px;
+          padding-bottom: 80px;
+        }
+        .content {
+          margin-top: 100px;
+          flex-direction: column;
+        }
+        .content .textBox {
+          max-width: 100%;
+        }
+        .content .textBox h2 {
+          font-size: 2.5em;
+          margin-bottom: 15px;
+        }
+        .content .imageBox {
+          max-width: 100%;
+          justify-content: center;
+        }
+        .content .imageBox img {
+          max-width: 300px;
+        }
+        .thumb li {
+          margin: 0 3px;
+          height: 55px;
+        }
+        .thumb li img {
+          max-width: 40px;
+        }
+        .thumb li::before {
+          position: absolute;
+          top: -150px;
+          left: 0;
+          font-size: 6em;
+        }
+        .social {
+          background: rgba(0, 0, 0, 0.1);
+          right: 0;
+          margin-top: 50px;
+          width: 50px;
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+        header .navigation {
+          display: none;
+        }
+        header .navigation.active {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          background: #fc4a55;
+          z-index: 10;
+        }
+        header .navigation.active li a {
+          margin-bottom: 20px;
+          font-size: 1.5em;
+        }
+        .toggle {
+          position: relative;
+          display: block;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+          z-index: 10000;
+        }
+        .toggle.active .menu {
+          display: none;
+        }
+        .toggle.active .close {
+          display: block;
+          position: fixed;
+        }
+        .toggle .menu {
+          color: #fff;
+          font-size: 24px;
+        }
+        .toggle .close {
+          color: #fff;
+          font-size: 24px;
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div class="bg"></div>
+      <header>
+        <a href="#" class="logo">Fruits</a>
+        <div class="toggle">
+          <i class="fa-solid fa-bars menu"></i>
+          <i class="fa-solid fa-xmark close"></i>
+        </div>
+        <ul class="navigation">
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#new">What's New</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </header>
+      <div class="content">
+        <div class="textBox">
+          <h2>Eat Fresh Everyday</h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci,
+            magni vel voluptatibus ratione distinctio a, aliquid quos assumenda
+            cumque corporis iusto! Quibusdam velit fuga amet doloribus eaque.
+            Est, error numquam!
+          </p>
+          <a href="#">Learn More</a>
+        </div>
+        <div class="imageBox">
+          <img class="fruits" src="images/apple.png" alt="apple" />
+        </div>
+      </div>
+      <ul class="thumb">
+        <li class="active" data-text="Apple">
+          <img
+            src="Images/apple.png"
+            alt="apple"
+            onclick="imageSlider('images/apple.png'); changeBgColor('#fc4a55');"
+          />
+        </li>
+        <li data-text="Mango">
+          <img
+            src="Images/mango.png"
+            alt="mango"
+            onclick="imageSlider('images/mango.png'); changeBgColor('#ffcc02');"
+          />
+        </li>
+        <li data-text="Watermelon">
+          <img
+            src="Images/watermelon.png"
+            alt="watermelon"
+            onclick="imageSlider('images/watermelon.png'); changeBgColor('#92ba3c');"
+          />
+        </li>
+        <li data-text="Dragon Fruits">
+          <img
+            src="Images/dragonFruits.png"
+            alt="dragonFruits"
+            onclick="imageSlider('images/dragonFruits.png'); changeBgColor('#fb6cb2');"
+          />
+        </li>
+        <li data-text="Pineapple">
+          <img
+            src="Images/pineApple.png"
+            alt="pineApple"
+            onclick="imageSlider('images/pineApple.png'); changeBgColor('#ffb42b');"
+          />
+        </li>
+      </ul>
+      <ul class="social">
+        <li>
+          <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        </li>
+        <li>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </li>
+      </ul>
+    </section>
+    <script>
+      // toggle menu
+      let menuToggle = document.querySelector(".toggle");
+      let navigation = document.querySelector(".navigation");
+      menuToggle.onclick = function () {
+        menuToggle.classList.toggle("active");
+        navigation.classList.toggle("active");
+      };
+
+      // change image on click
+      function imageSlider(imageSrc) {
+        document.querySelector(".fruits").src = imageSrc;
+      }
+
+      // change background color
+      function changeBgColor(color) {
+        const bg = document.querySelector(".bg");
+        bg.style.background = color;
+      }
+
+      // add active class to selected thumb
+      let el = document.querySelectorAll(".thumb li");
+      for (let i = 0; i < el.length; i++) {
+        el[i].onclick = function () {
+          let c = 0;
+          while (c < el.length) {
+            el[c++].classList = "check";
+          }
+          el[i].className = "check active";
+        };
+      }
+    </script>
+  </body>
+</html>
